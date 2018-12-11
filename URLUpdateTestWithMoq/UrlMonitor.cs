@@ -7,13 +7,17 @@ namespace URLUpdateTestWithMoq
     {
         private event EventHandler<string> UrlUpdated;
         private readonly UrlHolder _holder = new UrlHolder();
-        
+        private readonly IUrlRequester _requester = new UrlRequester();
+
+        public UrlMonitor() {}
+        public UrlMonitor(IUrlRequester requester) => _requester = requester;
+
         public void CheckUrls()
         {
             var urls = _holder.GetList();
             urls.ForEach(p =>
             {
-                var lastModified = getUpdatedDateTimeFromUrl(p.Key);
+                var lastModified = _requester.GetUpdatedDateTimeFromUrl(p.Key);
                 if (lastModified != null && lastModified != p.Value)
                 {
                     _holder.Put(p.Key, (DateTime) lastModified);
@@ -23,24 +27,9 @@ namespace URLUpdateTestWithMoq
             });
         }
 
-        private DateTime? getUpdatedDateTimeFromUrl(string url)
-        {
-            Uri myUri = new Uri(url);
-            HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create(myUri); 
-            HttpWebResponse myHttpWebResponse = (HttpWebResponse)myHttpWebRequest.GetResponse();
-            if (myHttpWebResponse.StatusCode == HttpStatusCode.OK)
-            {
-                var lastModified = myHttpWebResponse.LastModified;
-                myHttpWebResponse.Close();
-                return lastModified;
-            }
-
-            return null;
-        }
-
         public void AddObserver(IObserver observer)
         {
-            if (_holder.Contains(observer)) return;
+            UrlUpdated -= observer.HandleEvent;
             UrlUpdated += observer.HandleEvent;
             _holder.Put(observer.UrlAddress, new DateTime());
         }

@@ -4,7 +4,7 @@ namespace URLUpdateTestWithMoq
 {
     public class UrlObserver : IObserver
     {
-        public string UrlAddress { get; }
+        public string UrlAddress { get; set; }
 
         public UrlObserver(string urlAddress)
         {
