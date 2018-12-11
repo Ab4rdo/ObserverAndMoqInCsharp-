@@ -4,9 +4,10 @@ using System.Linq;
 
 namespace URLUpdateTestWithMoq
 {    
+    [Serializable]
     public class UrlHolder
     {
-        private readonly Dictionary<string, DateTime> _urlsWithDates = new Dictionary<string, DateTime>();
+        private Dictionary<string, DateTime> _urlsWithDates = new Dictionary<string, DateTime>();
 
         public void Put(string url, DateTime date)
         {
@@ -26,9 +27,14 @@ namespace URLUpdateTestWithMoq
             return _urlsWithDates.ToList();
         }
 
-        public bool Contains(IObserver observer)
+        public void SetMemento(UrlHolderMemento memento)
         {
-            return _urlsWithDates.ContainsKey(observer.UrlAddress);
+            _urlsWithDates = new Dictionary<string, DateTime>(memento.UrlsWithDates);
+        }
+
+        public UrlHolderMemento CreateMemento()
+        {
+            return new UrlHolderMemento(_urlsWithDates);
         }
     }
 }
