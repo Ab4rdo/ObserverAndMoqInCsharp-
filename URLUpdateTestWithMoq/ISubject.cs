@@ -1,5 +1,3 @@
-using System;
-
 namespace URLUpdateTestWithMoq
 {
     public interface ISubject

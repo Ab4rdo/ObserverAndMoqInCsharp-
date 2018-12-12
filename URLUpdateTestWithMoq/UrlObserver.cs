@@ -4,16 +4,16 @@ namespace URLUpdateTestWithMoq
 {
     public class UrlObserver : IObserver
     {
-        public string UrlAddress { get; set; }
-
         public UrlObserver(string urlAddress)
         {
             UrlAddress = urlAddress;
         }
 
+        public string UrlAddress { get; set; }
+
         public void HandleEvent(object sender, string url)
         {
-            if(url == UrlAddress)
+            if (url == UrlAddress)
                 Console.WriteLine($"{url} has been updated!");
         }
     }

@@ -7,9 +7,9 @@ namespace URLUpdateTestWithMoq
     {
         public DateTime? GetUpdatedDateTimeFromUrl(string url)
         {
-            Uri myUri = new Uri(url);
-            HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create(myUri); 
-            HttpWebResponse myHttpWebResponse = (HttpWebResponse)myHttpWebRequest.GetResponse();
+            var myUri = new Uri(url);
+            var myHttpWebRequest = (HttpWebRequest) WebRequest.Create(myUri);
+            var myHttpWebResponse = (HttpWebResponse) myHttpWebRequest.GetResponse();
             if (myHttpWebResponse.StatusCode == HttpStatusCode.OK)
             {
                 var lastModified = myHttpWebResponse.LastModified;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace URLUpdateTestWithMoq
-{    
+{
     public class UrlHolder
     {
         private Dictionary<string, DateTime> _urlsWithDates = new Dictionary<string, DateTime>();
