@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace URLUpdateTestWithMoq
 {
@@ -50,6 +51,21 @@ namespace URLUpdateTestWithMoq
                     handler?.Invoke(this, p.Key);
                 }
             });
+        }
+
+        /// <summary>
+        /// Starts a loop where Monitor checks Urls with time based on given arguments.
+        /// </summary>
+        /// <param name="sleepTime">Sleep time between checks of whole list of URLs in Milliseconds.</param>
+        /// <param name="numberOfIterations">Maximum number of iterations for the loop to finish. 0 means infinite.</param>
+        public void CheckUrlsLoop(int sleepTime = 0, int numberOfIterations = 0)
+        {
+            bool isInfinite = numberOfIterations == 0;
+            while (isInfinite || numberOfIterations-- != 0)
+            {
+                CheckUrls();
+                Thread.Sleep(sleepTime);
+            }
         }
     }
 }

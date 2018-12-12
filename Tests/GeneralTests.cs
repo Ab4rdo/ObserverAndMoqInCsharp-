@@ -28,7 +28,7 @@ namespace Tests
            
             //act
             _moqMonitor.Object.AddObserver(_moqObserver.Object);
-            _moqMonitor.Object.CheckUrls();
+            _moqMonitor.Object.CheckUrlsLoop(0, 1);
             
             //assert
             _moqObserver.Verify(m => 
@@ -44,9 +44,8 @@ namespace Tests
            
             //act
             _moqMonitor.Object.AddObserver(_moqObserver.Object);
-            _moqMonitor.Object.CheckUrls();
-            _moqMonitor.Object.CheckUrls();
-            _moqMonitor.Object.CheckUrls();
+            _moqMonitor.Object.CheckUrlsLoop(0, 3);
+
             
             //assert
             _moqObserver.Verify(m => 

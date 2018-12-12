@@ -13,9 +13,7 @@ namespace URLUpdateTestWithMoq
             var observer2 = new UrlObserver("https://pja.edu.pl");
 
             monitor.AddObserver(observer1);
-            monitor.CheckUrls();
-            monitor.CheckUrls();
-            monitor.CheckUrls();
+            monitor.CheckUrlsLoop(30, 3);
         }
     }
 }
