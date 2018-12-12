@@ -7,31 +7,31 @@ namespace Tests
 {
     public class Tests
     {
-        private Mock<IUrlRequester> moqRequester;
-        private Mock<UrlMonitor> moqMonitor;
-        private Mock<IObserver> moqObserver;
+        private Mock<IUrlRequester> _moqRequester;
+        private Mock<UrlMonitor> _moqMonitor;
+        private Mock<IObserver> _moqObserver;
 
         [SetUp]
         public void SetUp()
         {
-            moqRequester = new Mock<IUrlRequester>();
-            moqMonitor = new Mock<UrlMonitor>(moqRequester.Object);
-            moqObserver = new Mock<IObserver>();
+            _moqRequester = new Mock<IUrlRequester>();
+            _moqMonitor = new Mock<UrlMonitor>(_moqRequester.Object);
+            _moqObserver = new Mock<IObserver>();
         }
         
         [Test]
         public void SingleNotifyTest()
         {
             //arrange
-            moqRequester.Setup(r => r.GetUpdatedDateTimeFromUrl(It.IsAny<string>())).Returns(DateTime.Now);
-            moqObserver.SetupProperty(o => o.UrlAddress, "x");
+            _moqRequester.Setup(r => r.GetUpdatedDateTimeFromUrl(It.IsAny<string>())).Returns(DateTime.Now);
+            _moqObserver.SetupProperty(o => o.UrlAddress, "x");
            
             //act
-            moqMonitor.Object.AddObserver(moqObserver.Object);
-            moqMonitor.Object.CheckUrls();
+            _moqMonitor.Object.AddObserver(_moqObserver.Object);
+            _moqMonitor.Object.CheckUrls();
             
             //assert
-            moqObserver.Verify(m => 
+            _moqObserver.Verify(m => 
                 m.HandleEvent(It.IsAny<ISubject>(), It.IsAny<string>()), Times.Once);
         }
         
@@ -39,17 +39,17 @@ namespace Tests
         public void TripleNotifyTestWithoutChangeOfDate()
         {
             //arrange
-            moqRequester.Setup(r => r.GetUpdatedDateTimeFromUrl(It.IsAny<string>())).Returns(DateTime.Now);
-            moqObserver.SetupProperty(o => o.UrlAddress, "x");
+            _moqRequester.Setup(r => r.GetUpdatedDateTimeFromUrl(It.IsAny<string>())).Returns(DateTime.Now);
+            _moqObserver.SetupProperty(o => o.UrlAddress, "x");
            
             //act
-            moqMonitor.Object.AddObserver(moqObserver.Object);
-            moqMonitor.Object.CheckUrls();
-            moqMonitor.Object.CheckUrls();
-            moqMonitor.Object.CheckUrls();
+            _moqMonitor.Object.AddObserver(_moqObserver.Object);
+            _moqMonitor.Object.CheckUrls();
+            _moqMonitor.Object.CheckUrls();
+            _moqMonitor.Object.CheckUrls();
             
             //assert
-            moqObserver.Verify(m => 
+            _moqObserver.Verify(m => 
                 m.HandleEvent(It.IsAny<ISubject>(), It.IsAny<string>()), Times.Once);
         }
         
@@ -57,18 +57,18 @@ namespace Tests
         public void TripleNotifyTestWithChangeOfDate()
         {
             //arrange
-            moqObserver.SetupProperty(o => o.UrlAddress, "x");
+            _moqObserver.SetupProperty(o => o.UrlAddress, "x");
            
             //act
-            moqMonitor.Object.AddObserver(moqObserver.Object);
-            moqRequester.Setup(r => r.GetUpdatedDateTimeFromUrl(It.IsAny<string>())).Returns(DateTime.Now);
-            moqMonitor.Object.CheckUrls();
-            moqRequester.Setup(r => r.GetUpdatedDateTimeFromUrl(It.IsAny<string>())).Returns(DateTime.Now);
-            moqMonitor.Object.CheckUrls();
-            moqMonitor.Object.CheckUrls();
+            _moqMonitor.Object.AddObserver(_moqObserver.Object);
+            _moqRequester.Setup(r => r.GetUpdatedDateTimeFromUrl(It.IsAny<string>())).Returns(DateTime.Now);
+            _moqMonitor.Object.CheckUrls();
+            _moqRequester.Setup(r => r.GetUpdatedDateTimeFromUrl(It.IsAny<string>())).Returns(DateTime.Now);
+            _moqMonitor.Object.CheckUrls();
+            _moqMonitor.Object.CheckUrls();
             
             //assert
-            moqObserver.Verify(m => 
+            _moqObserver.Verify(m => 
                 m.HandleEvent(It.IsAny<ISubject>(), It.IsAny<string>()), Times.Exactly(2));
         }
 
@@ -78,16 +78,16 @@ namespace Tests
             //arrange
             var moqObserver2 = new Mock<IObserver>();
             var exampleUrl = "http://xxxxx.pl";
-            moqRequester.Setup(r => r.GetUpdatedDateTimeFromUrl(It.IsAny<string>())).Returns(DateTime.Now);
-            moqObserver.SetupProperty(o => o.UrlAddress, exampleUrl);
+            _moqRequester.Setup(r => r.GetUpdatedDateTimeFromUrl(It.IsAny<string>())).Returns(DateTime.Now);
+            _moqObserver.SetupProperty(o => o.UrlAddress, exampleUrl);
             moqObserver2.SetupProperty(o => o.UrlAddress, exampleUrl);
             
             //act
-            moqMonitor.Object.AddObserver(moqObserver.Object);
-            moqMonitor.Object.CheckUrls();
+            _moqMonitor.Object.AddObserver(_moqObserver.Object);
+            _moqMonitor.Object.CheckUrls();
             
             //assert
-            moqObserver.Verify(m => 
+            _moqObserver.Verify(m => 
                 m.HandleEvent(It.IsAny<ISubject>(), It.IsAny<string>()), Times.Once);
             moqObserver2.Verify(m => 
                 m.HandleEvent(It.IsAny<ISubject>(), It.IsAny<string>()), Times.Never);
