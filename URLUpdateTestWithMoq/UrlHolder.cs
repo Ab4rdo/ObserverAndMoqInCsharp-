@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace URLUpdateTestWithMoq
 {    
-    [Serializable]
     public class UrlHolder
     {
         private Dictionary<string, DateTime> _urlsWithDates = new Dictionary<string, DateTime>();

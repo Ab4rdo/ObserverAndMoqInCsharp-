@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 
 namespace URLUpdateTestWithMoq
 {
@@ -27,6 +26,12 @@ namespace URLUpdateTestWithMoq
             });
         }
 
+        /// <summary>
+        /// Observer is added for a UrlMonitor. Observer cannot be added twice (it's re-added).
+        /// After adding another observer for already observed url,
+        /// time of last modification will reset! IT IS EXPECTED BEHAVIOR FOR SURE.
+        /// </summary>
+        /// <param name="observer"></param>
         public void AddObserver(IObserver observer)
         {
             UrlUpdated -= observer.HandleEvent;

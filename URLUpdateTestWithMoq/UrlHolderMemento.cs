@@ -6,9 +6,10 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace URLUpdateTestWithMoq
 {
+    [Serializable]
     public class UrlHolderMemento
     {
-        private readonly string _exportFileName = "UrlHolder.memento";
+        public static readonly string ExportFileName = "UrlHolder.memento";
 
         private Dictionary<string, DateTime> _urlsWithDates;
         
@@ -18,7 +19,7 @@ namespace URLUpdateTestWithMoq
             set
             {
                 _urlsWithDates = new Dictionary<string, DateTime>(value);
-                WriteStateToFile(_exportFileName);
+                WriteStateToFile(ExportFileName);
             }
         }
 
